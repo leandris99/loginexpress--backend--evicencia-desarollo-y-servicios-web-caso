@@ -7,7 +7,7 @@ const cors = require('cors')
 const session = require('express-session')
 
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: 'http://localhost:5173',
   credentials: true
 }))
 app.use(session({
@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/login', async (req, res) => { //req = request => peticion ; res = response => reespuesta
+app.get('/login', async (req, res) => { //req = request => peticion ; res = response => respuesta
   const datos = req.query;
   // A simple SELECT query
   try {
@@ -35,10 +35,10 @@ app.get('/login', async (req, res) => { //req = request => peticion ; res = resp
       "SELECT * FROM `cuenta` WHERE `usuario` = ? AND `clave` =  ?",
       [datos.usuario, datos.clave]
     );
-    if(results.length > 0) {
+    if (results.length > 0) {
       req.session.usuario = datos.usuario;
       res.status(200).send('Inicio de sesion correcto')
-    }else{
+    } else {
       res.status(401).send("usuario o clave incorrectos")
     }
 
@@ -47,17 +47,16 @@ app.get('/login', async (req, res) => { //req = request => peticion ; res = resp
   } catch (err) {
     console.log(err);
   }
-  //console.log(datos)
-  //res.send('inicio de sesion !')
+
 })
 
 app.get('/validar', (req, res) => {
-  if (req.session.usuario){
+  if (req.session.usuario) {
     res.status(200).send('Sesion validada')
-  } else{
+  } else {
     res.status(401).send('No autorizado')
   }
-  
+
 })
 
 app.listen(port, () => {
